@@ -1,6 +1,9 @@
 <template>
   <div class="form">
-    <h2>{{ msg }}</h2>
+    <h2>
+      {{ msg }}
+      <span>{{ randomNumber }}</span>
+    </h2>
     <form action>
       <label for="name">your name</label>
       <input name="name" v-model="name" type="text" />
@@ -8,7 +11,7 @@
       <input type="text" v-model="vehicle" name="vehicle" />
       <input type="submit" v-on:click="submit" />
     </form>
-    <FormDisplay :submissions="submissions" />
+    <FormDisplay :submissions="submissions" @deleteMe="deleteMe" />
   </div>
 </template>
 
@@ -26,16 +29,27 @@ export default {
     name: '',
     vehicle: 'bicycle',
     submissions: [],
+    randomNumber: 0,
+    id: 0,
   }),
   methods: {
     submit() {
       event.preventDefault()
       this.submissions = [
         ...this.submissions,
-        { name: this.name, vehicle: this.vehicle },
+        { name: this.name, vehicle: this.vehicle, id: this.id },
       ]
       this.name = ''
       this.vehicle = ''
+    },
+    deleteMe(info) {
+      this.randomNumber = info.randomNumber
+      this.submissions = this.submissions.filter(item => item.id !== info.id)
+    },
+  },
+  watch: {
+    submissions() {
+      this.id = this.id + 1
     },
   },
 }

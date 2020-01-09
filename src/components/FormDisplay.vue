@@ -1,12 +1,18 @@
 <template>
   <div>
-    <p class="bolded" v-if="submissions.length">{{ submissionsDisplay[currentUser].name }}</p>
-    <p class="bolded" v-if="submissions.length">{{ submissionsDisplay[currentUser].vehicle }}</p>
+    <p class="bolded" v-if="submissions.length">{{ submissionsDisplay[currentIndex].name }}</p>
+    <p class="bolded" v-if="submissions.length">{{ submissionsDisplay[currentIndex].vehicle }}</p>
     <button v-on:click="click">click me</button>
 
-    <ul>
-      <ListItem v-for="(s, index) in submissionsDisplay" :item="s" v-bind:key="index" />
-    </ul>
+    <div class="container">
+      <ListItem
+        v-for="(s) in submissionsDisplay"
+        :currentUserId="submissionsDisplay[currentIndex].id"
+        :item="s"
+        v-bind:key="s.id"
+        @deleteMe="deleteMe"
+      />
+    </div>
   </div>
 </template>
 
@@ -25,7 +31,7 @@ export default {
   data() {
     return {
       submissionsDisplay: this.submissions,
-      currentUser: 0,
+      currentIndex: 0,
     }
   },
 
@@ -39,10 +45,13 @@ export default {
   },
   methods: {
     click() {
-      this.currentUser =
-        this.currentUser >= this.submissionsDisplay.length - 1
+      this.currentIndex =
+        this.currentIndex >= this.submissionsDisplay.length - 1
           ? 0
-          : this.currentUser + 1
+          : this.currentIndex + 1
+    },
+    deleteMe(info) {
+      return this.$emit('deleteMe', info)
     },
   },
 }
@@ -58,5 +67,10 @@ export default {
 button {
   display: block;
   margin: 10px auto;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
