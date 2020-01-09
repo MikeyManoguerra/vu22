@@ -14,8 +14,10 @@ export default {
     item: {
       type: Object,
     },
-  
-    currentUserId: {
+    index: {
+      type: Number,
+    },
+    currentUser: {
       type: Number,
     },
   },
@@ -31,7 +33,7 @@ export default {
     deleteThis() {
       const importantInfo = {
         randomNumber: Math.floor(Math.random() * 10),
-        id: this.item.id,
+        index: this.index,
       }
       return this.$emit('deleteMe', importantInfo)
     },
@@ -39,7 +41,7 @@ export default {
 
   computed: {
     activeItem() {
-      return this.$props.item.id === this.$props.currentUserId ? 'active' : ''
+      return this.$props.index === this.$props.currentUser ? 'active' : ''
     },
     highlightedItem() {
       return this.selected ? 'selected' : ''

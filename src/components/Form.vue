@@ -30,26 +30,22 @@ export default {
     vehicle: 'bicycle',
     submissions: [],
     randomNumber: 0,
-    id: 0,
   }),
   methods: {
     submit() {
       event.preventDefault()
       this.submissions = [
         ...this.submissions,
-        { name: this.name, vehicle: this.vehicle, id: this.id },
+        { name: this.name, vehicle: this.vehicle },
       ]
       this.name = ''
       this.vehicle = ''
     },
     deleteMe(info) {
       this.randomNumber = info.randomNumber
-      this.submissions = this.submissions.filter(item => item.id !== info.id)
-    },
-  },
-  watch: {
-    submissions() {
-      this.id = this.id + 1
+      this.submissions = this.submissions.filter(
+        (item, index) => index !== info.index
+      )
     },
   },
 }
