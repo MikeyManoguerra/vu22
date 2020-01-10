@@ -1,5 +1,5 @@
 <template>
-  <div class="item-guy" v-bind:class="{ active: activeItem, selected: selected }">
+  <div draggable="true" class="item-guy" v-bind:class="{ active: activeItem, selected: selected }">
     <p>{{ item.vehicle }}</p>
     <p>{{ item.name }}</p>
     <button v-on:click="deleteThis">delete</button>
