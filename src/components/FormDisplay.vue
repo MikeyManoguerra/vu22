@@ -1,12 +1,16 @@
 <template>
   <div>
-    <p class="bolded" v-if="submissions.length">{{ submissionsDisplay[currentIndex].name }}</p>
-    <p class="bolded" v-if="submissions.length">{{ submissionsDisplay[currentIndex].vehicle }}</p>
+    <p class="bolded" v-if="submissions.length">
+      {{ submissionsDisplay[currentIndex].name }}
+    </p>
+    <p class="bolded" v-if="submissions.length">
+      {{ submissionsDisplay[currentIndex].vehicle }}
+    </p>
     <button v-on:click="click">click me</button>
 
     <div class="container">
       <ListItem
-        v-for="(s) in submissionsDisplay"
+        v-for="s in submissionsDisplay"
         :currentUserId="submissionsDisplay[currentIndex].id"
         :item="s"
         v-bind:key="s.id"
@@ -17,47 +21,53 @@
 </template>
 
 <script>
-import ListItem from './ListItem'
+import ListItem from './ListItem';
 export default {
   name: 'FormDisplay',
   components: {
-    ListItem,
+    ListItem
   },
   props: {
     submissions: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   data() {
     return {
       submissionsDisplay: this.submissions,
-      currentIndex: 0,
-    }
+      currentIndex: 0
+    };
   },
 
   watch: {
     submissions: {
       immediate: true,
       handler(submissions) {
-        this.submissionsDisplay = submissions
-      },
-    },
+        this.submissionsDisplay = submissions;
+      }
+    }
   },
   methods: {
     click() {
       this.currentIndex =
         this.currentIndex >= this.submissionsDisplay.length - 1
           ? 0
-          : this.currentIndex + 1
+          : this.currentIndex + 1;
     },
     deleteMe(info) {
-      return this.$emit('deleteMe', info)
-    },
-  },
-}
+      if (
+        info.id ===
+        this.submissionsDisplay[this.submissionsDisplay.length - 1].id
+      )
+        this.currentIndex = 0;
+
+      return this.$emit('deleteMe', info);
+    }
+  }
+};
 </script>
 
-<style >
+<style>
 .bolded {
   display: inline;
   padding: 10px;
